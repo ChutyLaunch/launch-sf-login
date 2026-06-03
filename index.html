@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Launch Consulting</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:    #013760;
+      --violet:  #5C2275;
+      --uviolet: #80379B;
+      --magenta: #DE1B83;
+      --orange:  #F64D05;
+    }
+
+    html, body {
+      width: 100%; height: 100%;
+      font-family: 'Nunito Sans', sans-serif;
+      background: var(--navy);
+      overflow: hidden;
+      color: #fff;
+    }
+
+    /* Animated background */
+    .bg {
+      position: fixed; inset: 0; z-index: 0;
+      background:
+        linear-gradient(to right, #013760 0%, #013760 15%, transparent 55%),
+        radial-gradient(ellipse 70% 50% at 100% 0%,   #5C227550 0%, transparent 55%),
+        radial-gradient(ellipse 50% 60% at 0%   100%,  #DE1B8330 0%, transparent 55%),
+        radial-gradient(ellipse 40% 40% at 50%  50%,   #80379B44 0%, transparent 60%),
+        var(--navy);
+      animation: bgpulse 10s ease-in-out infinite alternate;
+    }
+    @keyframes bgpulse {
+      from { filter: brightness(1); }
+      to   { filter: brightness(1.08) hue-rotate(5deg); }
+    }
+
+    /* Dot grid */
+    .dots {
+      position: fixed; inset: 0; z-index: 1;
+      background-image: radial-gradient(rgba(255,255,255,0.05) 1px, transparent 1px);
+      background-size: 28px 28px;
+    }
+
+    /* Floating code decoration */
+    .code-deco {
+      position: fixed; top: 12%; right: 5%; z-index: 2;
+      font-family: 'DM Mono', monospace;
+      font-size: 10px; line-height: 1.8;
+      color: rgba(255,255,255,0.07);
+      pointer-events: none;
+      animation: fadeUp 1s 0.8s ease both;
+    }
+
+    .content {
+      position: relative; z-index: 3;
+      display: flex; flex-direction: column;
+      justify-content: center;
+      height: 100vh;
+      padding: 0 9%;
+    }
+
+    /* Pill badge */
+    .badge {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 100px;
+      padding: 5px 13px;
+      margin-bottom: 36px;
+      width: fit-content;
+      animation: fadeUp 0.5s ease both;
+    }
+    .badge-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--magenta), var(--orange));
+      animation: pulse 2s ease-in-out infinite;
+    }
+    .badge span {
+      font-size: 11px; font-weight: 600; letter-spacing: 0.07em;
+      text-transform: uppercase; color: rgba(255,255,255,0.55);
+    }
+    @keyframes pulse {
+      0%,100% { opacity:1; transform:scale(1); }
+      50%      { opacity:0.5; transform:scale(0.75); }
+    }
+
+    /* Headline */
+    h1 {
+      font-size: clamp(30px, 4.5vw, 50px);
+      font-weight: 700; line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+      animation: fadeUp 0.5s 0.1s ease both;
+    }
+    h1 .gradient {
+      background: linear-gradient(90deg, var(--magenta), var(--orange));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .sub {
+      font-size: 15px; font-weight: 300; color: rgba(255,255,255,0.5);
+      line-height: 1.6; max-width: 320px;
+      margin-bottom: 40px;
+      animation: fadeUp 0.5s 0.2s ease both;
+    }
+
+    /* Features */
+    .features {
+      display: flex; flex-direction: column; gap: 12px;
+      margin-bottom: 44px;
+      animation: fadeUp 0.5s 0.3s ease both;
+    }
+    .feature {
+      display: flex; align-items: center; gap: 12px;
+    }
+    .feature-icon {
+      width: 32px; height: 32px; border-radius: 8px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.09);
+    }
+    .feature-icon svg { width: 15px; height: 15px; }
+    .feature-text { font-size: 13px; font-weight: 400; color: rgba(255,255,255,0.65); }
+    .feature-text strong { color: rgba(255,255,255,0.9); font-weight: 600; }
+
+    /* Stats */
+    .stats {
+      display: flex; gap: 28px;
+      padding-top: 32px;
+      border-top: 1px solid rgba(255,255,255,0.07);
+      animation: fadeUp 0.5s 0.4s ease both;
+    }
+    .stat { display: flex; flex-direction: column; gap: 3px; }
+    .stat-num {
+      font-size: 26px; font-weight: 700; line-height: 1;
+      background: linear-gradient(90deg, var(--magenta), var(--orange));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .stat-label {
+      font-size: 10px; font-weight: 600; letter-spacing: 0.09em;
+      text-transform: uppercase; color: rgba(255,255,255,0.3);
+    }
+
+    /* Bottom */
+    .bottom {
+      position: fixed; bottom: 0; left: 0; right: 0; z-index: 4;
+      padding: 16px 9%;
+      display: flex; align-items: center; justify-content: space-between;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      animation: fadeUp 0.5s 0.5s ease both;
+    }
+    .bottom-left {
+      font-size: 11px; font-weight: 600; letter-spacing: 0.08em;
+      text-transform: uppercase; color: rgba(255,255,255,0.2);
+    }
+    .bottom-right {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 11px; color: rgba(255,255,255,0.2);
+    }
+    .sf-icon { width: 14px; height: 14px; opacity: 0.3; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg"></div>
+  <div class="dots"></div>
+
+  <div class="code-deco">
+    const client = new SalesforceClient({<br>
+    &nbsp;&nbsp;org: 'launch.my.salesforce.com',<br>
+    &nbsp;&nbsp;version: 'v63.0'<br>
+    })<br>
+    const results = await client.query(<br>
+    &nbsp;&nbsp;'SELECT Id, Name FROM Account'<br>
+    )
+  </div>
+
+  <div class="content">
+
+    <div class="badge">
+      <div class="badge-dot"></div>
+      <span>Salesforce Partner</span>
+    </div>
+
+    <h1>Accelerate your<br>business.<br><span class="gradient">Results that last.</span></h1>
+
+    <p class="sub">Your Launch Consulting Salesforce environment — strategy, technology, and execution in one platform.</p>
+
+    <div class="features">
+      <div class="feature">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="1.8" stroke-linecap="round">
+            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+          </svg>
+        </div>
+        <div class="feature-text"><strong>Strategy & Execution</strong> — From vision to measurable outcomes</div>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="1.8" stroke-linecap="round">
+            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+          </svg>
+        </div>
+        <div class="feature-text"><strong>Salesforce Expertise</strong> — Implementation, integration & support</div>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="1.8" stroke-linecap="round">
+            <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 11a4 4 0 100-8 4 4 0 000 8zM23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/>
+          </svg>
+        </div>
+        <div class="feature-text"><strong>People-first approach</strong> — Adoption, training & change management</div>
+      </div>
+    </div>
+
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-num">3.5B</div>
+        <div class="stat-label">People reached</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">$2B</div>
+        <div class="stat-label">Data monetized</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">30M</div>
+        <div class="stat-label">Guests served</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="bottom">
+    <span class="bottom-left">Launch Consulting</span>
+    <span class="bottom-right">
+      <svg class="sf-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M10.5 5.5C11.5 3.5 13.5 2 16 2c3.31 0 6 2.69 6 6 0 .34-.03.67-.08 1C23.22 9.7 24 10.75 24 12c0 1.66-1.34 3-3 3H5c-2.21 0-4-1.79-4-4 0-1.97 1.43-3.61 3.32-3.93" stroke-linecap="round"/>
+      </svg>
+      Powered by Salesforce
+    </span>
+  </div>
+
+</body>
+</html>
